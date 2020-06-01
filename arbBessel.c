@@ -10,7 +10,7 @@ int main()
 	slong prec, i;
 	double dxa, dxb, dya, dyb, xd;
 	arb_t xa, xb, ya, yb, w, x, y, z;
-	acb_t res, nu, z;
+	acb_t res, nu;
 
 	double scale = 1.0;
 	double multiplier = 3.0 * sqrt(3) / 8.0 / scale;
@@ -23,9 +23,8 @@ int main()
     	arb_init(y);
     	arb_init(z);
 
-    	arb_init(res);    
-	arb_init(nu);    
-	arb_init(z); 
+    	acb_init(res);    
+	acb_init(nu);     
 
 	prec = 30 * 3.33;
 
@@ -36,13 +35,13 @@ int main()
 		flint_printf(" ");
 		arb_set_d(z, 1.0 / cbrt(3.0 * multiplier * xd));
 
-		arb_hypgeom_bessel_j(res, nu, z, prec);
+		arb_hypgeom_bessel_j(w, y, z, prec);
 		flint_printf(" ");
-		arb_printd(res, 50);
+		arb_printd(w, 50);
 		flint_printf(" ");
 
 		arb_set_d(y, 1.0 / cbrt(3.0 * multiplier * xd) / xd);
-		arb_mul(z, res, y, prec);
+		arb_mul(z, w, y, prec);
 		arb_printd(z, 50);
 		flint_printf("\n");
 	}
@@ -54,9 +53,8 @@ int main()
     	arb_clear(y);
     	arb_clear(z);
 
-    	arb_clear(res);    
-	arb_clear(nu);    
-	arb_clear(z);	
+    	acb_clear(res);    
+	acb_clear(nu);	
 	
 	flint_cleanup();
 	return 0;
