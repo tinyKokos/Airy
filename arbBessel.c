@@ -9,7 +9,7 @@ int main()
 {
 	slong prec;
 	double dxa, dxb, xd;
-	arb_t xa, xb, w, x, y, z;
+	arb_t xa, xb, res, nu, x, z;
 
 	double scale = 1.0;
 	double multiplier = 3.0 * sqrt(3) / 8.0 / scale;
@@ -17,12 +17,17 @@ int main()
 	dxa = 0.01;
 	dxb = 2.0 + dxa;
 
-	arb_init(w);
+	arb_init(res);
      	arb_init(x);
-    	arb_init(y);
-    	arb_init(z);
+    	arb_init(nu);
+	arb_init(z);
 
 	prec = 30 * 3.33;
+	// adjust this command to adjust nu in Bessel code
+	arb_set_d(nu, 1/3);
+
+	// I think that it might be possible to remove the for loop if you can set
+	//the arb_t ball of x  to all the points that you need.
 
 	for(xd = dxa; xd <= dxb; xd += dxa)
 	{
@@ -31,23 +36,18 @@ int main()
 		flint_printf(" ");
 		arb_set_d(z, 1.0 / cbrt(3.0 * multiplier * xd));
 
-		arb_hypgeom_bessel_j(w, y, z, prec);
+		arb_hypgeom_bessel_j(res, nu, z, prec);
 		flint_printf(" ");
-		arb_printd(w, 50);
-		flint_printf(" ");
-
-		arb_set_d(y, 1.0 / cbrt(3.0 * multiplier * xd) / xd);
-		arb_mul(z, w, y, prec);
-		arb_printd(z, 50);
+		arb_printd(res, 50);
 		flint_printf("\n");
 	}
 
 	flint_printf("\n");
 
-	arb_clear(w);
+	arb_clear(res);
        	arb_clear(x);
-    	arb_clear(y);
-    	arb_clear(z);	
+    	arb_clear(nu);
+	arb_clear(z);
 	
 	flint_cleanup();
 	return 0;
