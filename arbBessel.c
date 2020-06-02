@@ -7,10 +7,9 @@
 
 int main()
 {
-	slong prec, i;
-	double dxa, dxb, dya, dyb, xd;
-	arb_t xa, xb, ya, yb, w, x, y, z;
-	acb_t res, nu;
+	slong prec;
+	double dxa, dxb, xd;
+	arb_t xa, xb, w, x, y, z;
 
 	double scale = 1.0;
 	double multiplier = 3.0 * sqrt(3) / 8.0 / scale;
@@ -22,9 +21,6 @@ int main()
      	arb_init(x);
     	arb_init(y);
     	arb_init(z);
-
-    	acb_init(res);    
-	acb_init(nu);     
 
 	prec = 30 * 3.33;
 
@@ -51,10 +47,7 @@ int main()
 	arb_clear(w);
        	arb_clear(x);
     	arb_clear(y);
-    	arb_clear(z);
-
-    	acb_clear(res);    
-	acb_clear(nu);	
+    	arb_clear(z);	
 	
 	flint_cleanup();
 	return 0;
